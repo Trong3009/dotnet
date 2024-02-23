@@ -12,31 +12,14 @@ namespace WebApi.Demo.Controllers
         [HttpGet]
         public async Task<IActionResult> GetAllEmployeeAsync()
         {
-            var connectionString = "Server=localhost;Port=3306;Database=nqtrong.demo;Uid=root;Pwd=;";
-
-            var connection = new MySqlConnection(connectionString);
-
-            var sql = "SELECT * FROM employee;";
-
-            var result = await connection.QueryAsync<Employee>(sql);
-
-            return StatusCode(StatusCodes.Status200OK, result);
+            return StatusCode(StatusCodes.Status200OK);
         }
 
         [HttpGet]
         [Route("{id}")]
         public async Task<IActionResult> GetEmployeeAsync(Guid id)
         {
-            var connectionString = "Server=localhost;Port=3306;Database=nqtrong.demo;Uid=root;Pwd=;";
-
-            var connection = new MySqlConnection(connectionString);
-
-            var sql = $"SELECT * FROM employee WHERE EmployeeId = @id;";
-
-            var param = new DynamicParameters();
-            param.Add("id", id);
-
-            var result = await connection.QuerySingleOrDefaultAsync<Employee>(sql, param);
+            
 
             if(result == null)
             {
@@ -52,20 +35,31 @@ namespace WebApi.Demo.Controllers
         {
             var connectionString = "Server=localhost;Port=3306;Database=nqtrong.demo;Uid=root;Pwd=;";
 
-            var connection = new MySqlConnection(connectionString);
+            using MySqlConnection connection = new(connectionString);
 
-            var sql = "INSERT INTO employee (EmployeeCode, FullName, Gender)";
+            var sql = "INSERT INTO employee VALUES @EmployeeId @EmployeeCode @FullName @DateOfBirth @Gender";
 
             var parameters = new
             {
+                EmployeeId = Guid.NewGuid(),
                 employee.EmployeeCode,
                 employee.FullName,
-                employee.Gender
+                employee.DateOfBirth,
+                employee.Gender,
             };
 
-            var result = await connection.ExecuteAsync(sql, parameters);
+           
 
-            return StatusCode(StatusCodes.Status201Created, result);
+            try
+            {
+                await connection.ExecuteAsync(sql, parameters);
+                return StatusCode(StatusCodes.Status201Created);
+            }catch (Exception ex)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, ex.Message);
+            }
+
+            
         }
     }
 }
