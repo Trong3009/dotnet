@@ -11,11 +11,15 @@ namespace WebApi.Demo.Infrastructure
 {
     public class EmployeeRepository : IEmployeeRepository
     {
+        private readonly string _connectionString;
+        public EmployeeRepository(string connectionString)
+        {
+            _connectionString = connectionString;
+        }
+
         public async Task<List<Employee>> GetAllEmployeeAsync()
         {
-            var connectionString = "Server=localhost;Port=3306;Database=nqtrong.demo;Uid=root;Pwd=;";
-
-            var connection = new MySqlConnection(connectionString);
+            var connection = new MySqlConnection(_connectionString);
 
             var sql = "SELECT * FROM employee;";
 
@@ -24,16 +28,20 @@ namespace WebApi.Demo.Infrastructure
             return result.ToList();
         }
 
-        public Task<Employee> GetEmployeeAsync(Guid EmpoloyeeId)
+        public async Task<Employee> GetEmployeeAsync(Guid employeeId)
         {
-            throw new NotImplementedException();
+            var employee = await FindEmployeeAsync(employeeId);
+            if(employee == null)
+            {
+                throw new NotfoundException();
+            }
+            return employee;
         }
 
-        public async Task<Employee> FindEmployeeById(Guid EmployeeId)
+        public async Task<Employee?> FindEmployeeAsync(Guid EmployeeId)
         {
-            var connectionString = "Server=localhost;Port=3306;Database=nqtrong.demo;Uid=root;Pwd=;";
 
-            var connection = new MySqlConnection(connectionString);
+            var connection = new MySqlConnection(_connectionString);
 
             var sql = $"SELECT * FROM employee WHERE EmployeeId = @id;";
 
@@ -54,14 +62,32 @@ namespace WebApi.Demo.Infrastructure
         {
             throw new NotImplementedException();
         }
-        public Task<int> DeleteEmployeeAsync(Employee employeeId)
+        public async Task<int> DeleteEmployeeAsync(Employee employee)
         {
-            throw new NotImplementedException();
+            var connection = new MySqlConnection(_connectionString);
+
+            var sql = $"DELETE FROM employee WHERE EmployeeId = @id;";
+
+            var param = new DynamicParameters();
+            param.Add("id", employee.EmployeeId);
+
+            var result = await connection.ExecuteAsync(sql, param);
+
+            return result;
         }
 
-        public Task<int> DeleteManyEmployeeAsync(List<Employee> employeeId)
+        public async Task<int> DeleteManyEmployeeAsync(List<Employee> employees)
         {
-            throw new NotImplementedException();
+            var connection = new MySqlConnection(_connectionString);
+
+            var sql = $"DELETE FROM employee WHERE EmployeeId IN @ids;";
+
+            var param = new DynamicParameters();
+            param.Add("ids", employees.Select(employee => employee.EmployeeId));
+
+            var result = await connection.ExecuteAsync(sql, param);
+
+            return result;
         }
     }
 }
