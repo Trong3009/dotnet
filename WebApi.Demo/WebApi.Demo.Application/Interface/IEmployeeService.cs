@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace WebApi.Demo.Application
 {
-    internal interface IEmployeeService
+    public interface IEmployeeService
     {
         /// <summary>
         /// Hàm lấy ra tất nhân viên
@@ -18,7 +18,7 @@ namespace WebApi.Demo.Application
         /// </summary>
         /// <param name="EmpoloyeeId"></param>
         /// <returns></returns>
-        Task<EmployeeDto> GetEmployeeAsync(Guid EmpoloyeeId);
+        Task<EmployeeDto> GetEmployeeAsync(Guid employeeId);
         /// <summary>
         /// Hàm tạo ra mới nhân viên
         /// </summary>
@@ -37,5 +37,6 @@ namespace WebApi.Demo.Application
         /// <param name="employeeId"></param>
         /// <returns></returns>
         Task<int> DeleteEmployeeAsync(Guid employeeId);
+        Task<int> DeleteManyEmployeeAsync(List<Guid> employeeIds);
     }
 }

@@ -169,6 +169,29 @@
         "build": {
           "buildTransitive/netcoreapp3.1/_._": {}
         }
+      },
+      "WebApi.Demo.Application/1.0.0": {
+        "type": "project",
+        "framework": ".NETCoreApp,Version=v6.0",
+        "dependencies": {
+          "WebApi.Demo.Domain": "1.0.0"
+        },
+        "compile": {
+          "bin/placeholder/WebApi.Demo.Application.dll": {}
+        },
+        "runtime": {
+          "bin/placeholder/WebApi.Demo.Application.dll": {}
+        }
+      },
+      "WebApi.Demo.Domain/1.0.0": {
+        "type": "project",
+        "framework": ".NETCoreApp,Version=v6.0",
+        "compile": {
+          "bin/placeholder/WebApi.Demo.Domain.dll": {}
+        },
+        "runtime": {
+          "bin/placeholder/WebApi.Demo.Domain.dll": {}
+        }
       }
     }
   },
@@ -682,13 +705,24 @@
         "system.runtime.compilerservices.unsafe.nuspec",
         "useSharedDesignerContext.txt"
       ]
+    },
+    "WebApi.Demo.Application/1.0.0": {
+      "type": "project",
+      "path": "../WebApi.Demo.Application/WebApi.Demo.Application.csproj",
+      "msbuildProject": "../WebApi.Demo.Application/WebApi.Demo.Application.csproj"
+    },
+    "WebApi.Demo.Domain/1.0.0": {
+      "type": "project",
+      "path": "../WebApi.Demo.Domain/WebApi.Demo.Domain.csproj",
+      "msbuildProject": "../WebApi.Demo.Domain/WebApi.Demo.Domain.csproj"
     }
   },
   "projectFileDependencyGroups": {
     "net6.0": [
       "Dapper >= 2.1.28",
       "MySqlConnector >= 2.3.5",
-      "Swashbuckle.AspNetCore >= 6.5.0"
+      "Swashbuckle.AspNetCore >= 6.5.0",
+      "WebApi.Demo.Application >= 1.0.0"
     ]
   },
   "packageFolders": {
@@ -717,7 +751,11 @@
       "frameworks": {
         "net6.0": {
           "targetAlias": "net6.0",
-          "projectReferences": {}
+          "projectReferences": {
+            "E:\\aaa\\dotnet\\WebApi.Demo\\WebApi.Demo.Application\\WebApi.Demo.Application.csproj": {
+              "projectPath": "E:\\aaa\\dotnet\\WebApi.Demo\\WebApi.Demo.Application\\WebApi.Demo.Application.csproj"
+            }
+          }
         }
       },
       "warningProperties": {

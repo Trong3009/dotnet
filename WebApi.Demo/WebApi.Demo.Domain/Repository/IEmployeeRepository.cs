@@ -18,9 +18,9 @@ namespace WebApi.Demo.Domain
         /// </summary>
         /// <param name="EmpoloyeeId"></param>
         /// <returns></returns>
-        Task<Employee> GetEmployeeAsync(Guid EmpoloyeeId);
+        Task<Employee> GetEmployeeAsync(Guid employeeId);
 
-        Task<Employee> FindEmployeeById(Guid EmployeeId);
+        Task<Employee?> FindEmployeeAsync(Guid employeeId);
         /// <summary>
         /// Hàm tạo ra mới nhân viên
         /// </summary>
@@ -38,8 +38,9 @@ namespace WebApi.Demo.Domain
         /// </summary>
         /// <param name="employeeId"></param>
         /// <returns></returns>
-        Task<int> DeleteEmployeeAsync(Employee employeeId);
+        Task<int> DeleteEmployeeAsync(Employee employee);
 
-        Task<int> DeleteManyEmployeeAsync(List<Employee> employeeId);
+        Task<int> DeleteManyEmployeeAsync(List<Employee> employees);
+        Task<Employee> GetEmployeeAsync(object employeeId);
     }
 }

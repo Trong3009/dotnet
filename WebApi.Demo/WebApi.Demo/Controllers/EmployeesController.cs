@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using MySqlConnector;
+using WebApi.Demo.Application;
 
 namespace WebApi.Demo.Controllers
 {
@@ -9,17 +10,25 @@ namespace WebApi.Demo.Controllers
     [ApiController]
     public class EmployeesController : ControllerBase
     {
+        private readonly IEmployeeService _employeeService;
+
+        public EmployeesController(IEmployeeService employeeService)
+        {
+            _employeeService = employeeService;
+        }
+
         [HttpGet]
         public async Task<IActionResult> GetAllEmployeeAsync()
         {
-            return StatusCode(StatusCodes.Status200OK);
+            var result = await _employeeService.GetAllEmployeeAsync();
+            return StatusCode(StatusCodes.Status200OK, result);
         }
 
         [HttpGet]
         [Route("{id}")]
         public async Task<IActionResult> GetEmployeeAsync(Guid id)
         {
-            
+            var result = await _employeeService.GetEmployeeAsync(id);
 
             if(result == null)
             {
@@ -29,37 +38,20 @@ namespace WebApi.Demo.Controllers
             return StatusCode(StatusCodes.Status200OK, result);
         }
 
-        [HttpPost]
+        [HttpDelete]
+        [Route("{id}")]
 
-        public async Task<IActionResult> CreateEmployeeAsync([FromBody] Employee employee)
+        public async Task<IActionResult> DelateEmployeeAsync(Guid id)
         {
-            var connectionString = "Server=localhost;Port=3306;Database=nqtrong.demo;Uid=root;Pwd=;";
+            var result = await _employeeService.DeleteEmployeeAsync(id);
+            return StatusCode(StatusCodes.Status200OK, result);
+        }
+        [HttpDelete]
 
-            using MySqlConnection connection = new(connectionString);
-
-            var sql = "INSERT INTO employee VALUES @EmployeeId @EmployeeCode @FullName @DateOfBirth @Gender";
-
-            var parameters = new
-            {
-                EmployeeId = Guid.NewGuid(),
-                employee.EmployeeCode,
-                employee.FullName,
-                employee.DateOfBirth,
-                employee.Gender,
-            };
-
-           
-
-            try
-            {
-                await connection.ExecuteAsync(sql, parameters);
-                return StatusCode(StatusCodes.Status201Created);
-            }catch (Exception ex)
-            {
-                return StatusCode(StatusCodes.Status500InternalServerError, ex.Message);
-            }
-
-            
+        public async Task<IActionResult> DelateManyEmployeeAsync(List<Guid> ids)
+        {
+            var result = await _employeeService.DeleteManyEmployeeAsync(ids);
+            return StatusCode(StatusCodes.Status200OK, result);
         }
     }
 }
