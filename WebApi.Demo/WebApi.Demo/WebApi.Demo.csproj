@@ -14,10 +14,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\WebApi.Demo.Application\WebApi.Demo.Application.csproj" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="Middleware\" />
+    <ProjectReference Include="..\WebApi.Demo.Infrastructure\WebApi.Demo.Infrastructure.csproj" />
   </ItemGroup>
 
 </Project>

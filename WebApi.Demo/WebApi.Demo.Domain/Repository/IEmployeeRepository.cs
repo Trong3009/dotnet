@@ -41,6 +41,5 @@ namespace WebApi.Demo.Domain
         Task<int> DeleteEmployeeAsync(Employee employee);
 
         Task<int> DeleteManyEmployeeAsync(List<Employee> employees);
-        Task<Employee> GetEmployeeAsync(object employeeId);
     }
 }
