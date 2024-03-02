@@ -6,8 +6,7 @@ using System.Threading.Tasks;
 
 namespace WebApi.Demo.Domain
 {
-    public interface IEmployeeRepository : ICrudRepository<Employee, Guid>
+    public interface IDepartmentRepository : ICrudRepository<Department, Guid>
     {
-        Task<Employee?> FindByCodeAsync(string code);
     }
 }
