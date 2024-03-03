@@ -4,9 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace WebApi.Demo.Domain
+namespace WebApi.Demo.Application.Interface.Base
 {
-    public interface IDepartmentRepository : IReadOnlyRepository<Department, Guid>
+    public interface IReadOnlyService
     {
     }
 }
