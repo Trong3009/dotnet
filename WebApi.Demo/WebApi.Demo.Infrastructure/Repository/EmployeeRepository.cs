@@ -6,86 +6,26 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using WebApi.Demo.Domain;
+using static Dapper.SqlMapper;
 
 namespace WebApi.Demo.Infrastructure
 {
-    public class EmployeeRepository : IEmployeeRepository
+    public class EmployeeRepository : BaseCrudRepository<Employee, Guid>, IEmployeeRepository
     {
-        private readonly string _connectionString;
-        public EmployeeRepository(string connectionString)
+        public EmployeeRepository(string connectionString) : base(connectionString)
         {
-            _connectionString = connectionString;
         }
 
-        public async Task<List<Employee>> GetAllEmployeeAsync()
+        public async Task<Employee?> FindByCodeAsync(string code)
         {
             var connection = new MySqlConnection(_connectionString);
 
-            var sql = "SELECT * FROM employee;";
-
-            var result = await connection.QueryAsync<Employee>(sql);
-
-            return result.ToList();
-        }
-
-        public async Task<Employee> GetEmployeeAsync(Guid employeeId)
-        {
-            var employee = await FindEmployeeAsync(employeeId);
-            if(employee == null)
-            {
-                throw new NotfoundException();
-            }
-            return employee;
-        }
-
-        public async Task<Employee?> FindEmployeeAsync(Guid EmployeeId)
-        {
-
-            var connection = new MySqlConnection(_connectionString);
-
-            var sql = $"SELECT * FROM employee WHERE EmployeeId = @id;";
+            var sql = $"SELECT * FROM Employee WHERE EmployeeId = @id;";
 
             var param = new DynamicParameters();
-            param.Add("id", EmployeeId);
+            param.Add("@code", code);
 
             var result = await connection.QuerySingleOrDefaultAsync<Employee>(sql, param);
-
-            return result;
-        }
-
-        public Task<Employee> InsertEmpoloyeeAsync(Employee employee)
-        {
-            throw new NotImplementedException();
-        }
-
-        public Task<Employee> UpdateEmployeeAsync(Employee employee)
-        {
-            throw new NotImplementedException();
-        }
-        public async Task<int> DeleteEmployeeAsync(Employee employee)
-        {
-            var connection = new MySqlConnection(_connectionString);
-
-            var sql = $"DELETE FROM employee WHERE EmployeeId = @id;";
-
-            var param = new DynamicParameters();
-            param.Add("id", employee.EmployeeId);
-
-            var result = await connection.ExecuteAsync(sql, param);
-
-            return result;
-        }
-
-        public async Task<int> DeleteManyEmployeeAsync(List<Employee> employees)
-        {
-            var connection = new MySqlConnection(_connectionString);
-
-            var sql = $"DELETE FROM employee WHERE EmployeeId IN @ids;";
-
-            var param = new DynamicParameters();
-            param.Add("ids", employees.Select(employee => employee.EmployeeId));
-
-            var result = await connection.ExecuteAsync(sql, param);
 
             return result;
         }

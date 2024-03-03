@@ -1,6 +1,6 @@
 ﻿namespace WebApi.Demo.Domain
 {
-    public class Employee
+    public class Employee : BaseAuditEntity, IEntity<Guid>
     {
         public Guid EmployeeId { get; set; }
 
@@ -11,13 +11,15 @@
         public DateTime DateOfBirth { get; set; }
 
         public Gender Gender { get; set; }
-        
-        public string? CreatedBy { get; set; }
 
-        public DateTime? CreatedDate { get; set; }
+        public Guid GetId()
+        {
+            return EmployeeId;
+        }
 
-        public string? ModifiedBy { get; set; }
-
-        public DateTime? ModifiedDate { get; set; }
+        public void SetId(Guid id)
+        {
+            EmployeeId = id;
+        }
     }
 }

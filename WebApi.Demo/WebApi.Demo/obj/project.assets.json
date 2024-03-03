@@ -192,6 +192,21 @@
         "runtime": {
           "bin/placeholder/WebApi.Demo.Domain.dll": {}
         }
+      },
+      "WebApi.Demo.Infrastructure/1.0.0": {
+        "type": "project",
+        "framework": ".NETCoreApp,Version=v6.0",
+        "dependencies": {
+          "Dapper": "2.1.28",
+          "MySqlConnector": "2.3.5",
+          "WebApi.Demo.Domain": "1.0.0"
+        },
+        "compile": {
+          "bin/placeholder/WebApi.Demo.Infrastructure.dll": {}
+        },
+        "runtime": {
+          "bin/placeholder/WebApi.Demo.Infrastructure.dll": {}
+        }
       }
     }
   },
@@ -715,6 +730,11 @@
       "type": "project",
       "path": "../WebApi.Demo.Domain/WebApi.Demo.Domain.csproj",
       "msbuildProject": "../WebApi.Demo.Domain/WebApi.Demo.Domain.csproj"
+    },
+    "WebApi.Demo.Infrastructure/1.0.0": {
+      "type": "project",
+      "path": "../WebApi.Demo.Infrastructure/WebApi.Demo.Infrastructure.csproj",
+      "msbuildProject": "../WebApi.Demo.Infrastructure/WebApi.Demo.Infrastructure.csproj"
     }
   },
   "projectFileDependencyGroups": {
@@ -722,7 +742,8 @@
       "Dapper >= 2.1.28",
       "MySqlConnector >= 2.3.5",
       "Swashbuckle.AspNetCore >= 6.5.0",
-      "WebApi.Demo.Application >= 1.0.0"
+      "WebApi.Demo.Application >= 1.0.0",
+      "WebApi.Demo.Infrastructure >= 1.0.0"
     ]
   },
   "packageFolders": {
@@ -754,6 +775,9 @@
           "projectReferences": {
             "E:\\aaa\\dotnet\\WebApi.Demo\\WebApi.Demo.Application\\WebApi.Demo.Application.csproj": {
               "projectPath": "E:\\aaa\\dotnet\\WebApi.Demo\\WebApi.Demo.Application\\WebApi.Demo.Application.csproj"
+            },
+            "E:\\aaa\\dotnet\\WebApi.Demo\\WebApi.Demo.Infrastructure\\WebApi.Demo.Infrastructure.csproj": {
+              "projectPath": "E:\\aaa\\dotnet\\WebApi.Demo\\WebApi.Demo.Infrastructure\\WebApi.Demo.Infrastructure.csproj"
             }
           }
         }
