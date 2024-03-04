@@ -7,54 +7,49 @@ using WebApi.Demo.Domain;
 
 namespace WebApi.Demo.Application
 {
-    public class EmployeeService : IEmployeeService
+    public class EmployeeService : BaseCrudService<Employee, Guid, EmployeeDto, EmployeeCreateDto, EmployeeUpdateDto>, IEmployeeService
     {
         private readonly IEmployeeRepository _employeeRepository;
-        private Guid employeeId;
-
-        public EmployeeService(IEmployeeRepository employeeRepository) 
+        public EmployeeService(IEmployeeRepository repository) : base(repository)
         {
-            _employeeRepository = employeeRepository;  
-        }
-        public async Task<List<EmployeeDto>> GetAllEmployeeAsync()
-        {
-            var employees = await _employeeRepository.GetAllEmployeeAsync();
-            var employeesDto = employees.Select(employee => EmployeeDtoToEmployeeDto(employee)).ToList();
-            return employeesDto;
+            _employeeRepository = repository;
         }
 
-        public async Task<EmployeeDto> GetEmployeeAsync(Guid employeeId)
+        public async Task<bool> CheckDuplicateCodeAsync(string code)
         {
-            var employee = await _employeeRepository.GetEmployeeAsync(employeeId);
-            var employeeDto = EmployeeDtoToEmployeeDto(employee);
-            return employeeDto;
+            var employee = await _employeeRepository.FindByCodeAsync(code);
+            if (employee == null)
+            {
+                return false;
+            }
+            else
+            {
+                return true;
+            }
         }
 
-        public Task<EmployeeDto> InsertEmpoloyeeAsync(EmployeeCreateDto employeeCreateDto)
+        public override Task<Employee> MapEntityCreateDtoToEntity(EmployeeCreateDto entityCreateDto)
         {
             throw new NotImplementedException();
         }
 
-        public Task<EmployeeDto> UpdateEmployeeAsync(Guid EmployeeId, EmployeeUpdateDto employeeUpdateDto)
+        public override Task<Employee> MapEntityUpdateDtoToEntity(EmployeeUpdateDto entityUpdateDto)
         {
             throw new NotImplementedException();
         }
 
-        public async Task<int> DeleteEmployeeAsync(Guid employeeId)
+        protected override EmployeeDto MapEntityDtoToEntityDto(Employee entity)
         {
-            var employee = await _employeeRepository.GetEmployeeAsync(employeeId);
-            var result = await _employeeRepository.DeleteEmployeeAsync(employee);
-            return result;
-        }
-
-        public async Task<int> DeleteManyEmployeeAsync(List<Guid> employeeIds)
-        {
-            throw new NotImplementedException();
-        }
-        private EmployeeDto EmployeeDtoToEmployeeDto(Employee employee) 
-        {
-            var employeeDto = new EmployeeDto();
-            return employeeDto;
+            var entityDto = new EmployeeDto()
+            {
+                EmployeeId = entity.EmployeeId,
+                EmployeeCode = entity.EmployeeCode,
+                FullName = entity.FullName,
+                DateOfBirth = entity.DateOfBirth,
+                Gender = entity.Gender,
+            };
+            return entityDto;
+            
         }
     }
 }

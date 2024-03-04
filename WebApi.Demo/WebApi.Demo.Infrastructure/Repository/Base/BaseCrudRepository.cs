@@ -16,7 +16,7 @@ namespace WebApi.Demo.Infrastructure
         {
         }
 
-        public Task<TEntity> InsertEmpoloyeeAsync(TEntity entity)
+        public Task<TEntity> InsertAsync(TEntity entity)
         {
             throw new NotImplementedException();
         }

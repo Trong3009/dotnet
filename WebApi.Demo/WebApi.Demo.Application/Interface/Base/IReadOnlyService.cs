@@ -9,6 +9,6 @@ namespace WebApi.Demo.Application
     public interface IReadOnlyService<TKey, TEntityDto> where TEntityDto : class
     {
         Task<List<TEntityDto>> GetAllAsync();
-        Task<TEntityDto> GetAsync(TKey entityId);
+        Task<TEntityDto> GetAsync(TKey id);
     }
 }

@@ -7,23 +7,29 @@ using WebApi.Demo.Domain;
 
 namespace WebApi.Demo.Application
 {
-    public class BaseRoadOnlyService<TEntity,TKey, TEntityDto> : IReadOnlyService<TKey, TEntityDto> where TEntity : IEntity<TKey> where TEntityDto : class
+    public abstract class BaseRoadOnlyService<TEntity,TKey, TEntityDto> : IReadOnlyService<TKey, TEntityDto> where TEntity : IEntity<TKey> where TEntityDto : class
     {
-        protected readonly IReadOnlyRepository<TEntity, TKey> Repository;
+        protected readonly IReadOnlyRepository<TEntity, TKey> RoadOnlyRepository;
 
         public BaseRoadOnlyService(IReadOnlyRepository<TEntity, TKey> repository)
         {
-            Repository = repository;
+            RoadOnlyRepository = repository;
         }
 
-        public Task<List<TEntityDto>> GetAllAsync()
+        public async Task<List<TEntityDto>> GetAllAsync()
         {
-            throw new NotImplementedException();
+            var entities = await RoadOnlyRepository.GetAllAsync();
+            var result = entities.Select(entity => MapEntityDtoToEntityDto(entity)).ToList();
+            return result;
         }
 
-        public Task<TEntityDto> GetAsync(TKey entityId)
+        public async Task<TEntityDto> GetAsync(TKey id)
         {
-            throw new NotImplementedException();
+            var entity = await RoadOnlyRepository.GetAsync(id);
+            var result = MapEntityDtoToEntityDto(entity);
+            return result;
         }
+
+        protected abstract TEntityDto MapEntityDtoToEntityDto(TEntity entity);
     }
 }

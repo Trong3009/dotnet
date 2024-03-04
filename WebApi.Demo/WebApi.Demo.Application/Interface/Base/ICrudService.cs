@@ -14,13 +14,13 @@ namespace WebApi.Demo.Application
         /// </summary>
         /// <param name="entity">ban ghi duoc them</param>
         /// <returns></returns>
-        Task<TEntityDto> UpdateyAsync(Guid TEntityId, TEntityUpdateDto entityUpdateDto);
+        Task<TEntityDto> UpdateAsync(TKey id, TEntityUpdateDto entityUpdateDto);
         /// <summary>
         /// Hàm xoa nhân viên theo @id
         /// </summary>
         /// <param name="entityId"></param>
         /// <returns></returns>
-        Task<int> DeleteTAsync(Guid entityId);
-        Task<int> DeletManyAsync(List<Guid> entityIds);
+        Task<int> DeleteAsync(TKey id);
+        Task<int> DeleteManyAsync(List<TKey> ids);
     }
 }
