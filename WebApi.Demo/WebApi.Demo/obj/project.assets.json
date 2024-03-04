@@ -739,8 +739,6 @@
   },
   "projectFileDependencyGroups": {
     "net6.0": [
-      "Dapper >= 2.1.28",
-      "MySqlConnector >= 2.3.5",
       "Swashbuckle.AspNetCore >= 6.5.0",
       "WebApi.Demo.Application >= 1.0.0",
       "WebApi.Demo.Infrastructure >= 1.0.0"
@@ -792,14 +790,6 @@
       "net6.0": {
         "targetAlias": "net6.0",
         "dependencies": {
-          "Dapper": {
-            "target": "Package",
-            "version": "[2.1.28, )"
-          },
-          "MySqlConnector": {
-            "target": "Package",
-            "version": "[2.3.5, )"
-          },
           "Swashbuckle.AspNetCore": {
             "target": "Package",
             "version": "[6.5.0, )"

@@ -6,8 +6,7 @@ using System.Threading.Tasks;
 
 namespace WebApi.Demo.Application
 {
-    public interface IEmployeeService : ICrudService<Guid, EmployeeDto, EmployeeCreateDto, EmployeeUpdateDto>
+    public interface IDepartmentService : IReadOnlyService<Guid, DepartmentDto>
     {
-        Task<bool> CheckDuplicateCodeAsync(string code);
     }
 }

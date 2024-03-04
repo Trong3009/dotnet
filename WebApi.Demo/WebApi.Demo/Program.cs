@@ -39,6 +39,9 @@ var connectionString = builder.Configuration["connectionString"];
 builder.Services.AddScoped<IEmployeeRepository>( provider => new EmployeeRepository(connectionString));
 builder.Services.AddScoped<IEmployeeService, EmployeeService>();
 
+builder.Services.AddScoped<IDepartmentRepository>(provider => new DepartmentRepository(connectionString));
+builder.Services.AddScoped<IDepartmentService, DepartmentService>();
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.

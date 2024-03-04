@@ -8,7 +8,7 @@ namespace WebApi.Demo.Domain
 {
     public interface ICrudRepository<TEntity, TKey> : IReadOnlyRepository<TEntity, TKey> where TEntity : IEntity<TKey>
     {
-        Task<TEntity> InsertEmpoloyeeAsync(TEntity entity);
+        Task<TEntity> InsertAsync(TEntity entity);
         /// <summary>
         /// Hàm suwear Banr ghi
         /// </summary>
