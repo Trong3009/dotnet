@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data.SqlTypes;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -19,6 +20,8 @@ namespace WebApi.Demo.Domain
         /// <param name="EmpoloyeeId"></param>
         /// <returns></returns>
         Task<TEntity> GetAsync(TKey id);
+
+        Task<(List<TEntity>, List<TKey>)> GetListAsync(IEnumerable<TKey> ids);
 
         Task<TEntity?> FindAsync(TKey id);
     }

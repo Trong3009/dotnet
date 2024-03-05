@@ -4,6 +4,8 @@ using WebApi.Demo.Application;
 using WebApi.Demo.Domain;
 using WebApi.Demo.Infrastructure;
 using WebApi.Demo.Middleware;
+using AutoMapper;
+using Microsoft.Extensions.DependencyInjection;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -34,12 +36,17 @@ builder.Services.AddControllers()
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
+builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());    
+
 var connectionString = builder.Configuration["connectionString"];
 
-builder.Services.AddScoped<IEmployeeRepository>( provider => new EmployeeRepository(connectionString));
-builder.Services.AddScoped<IEmployeeService, EmployeeService>();
+builder.Services.AddScoped<IUnitOfWork>(provider => new UnitOfWork(connectionString));
 
-builder.Services.AddScoped<IDepartmentRepository>(provider => new DepartmentRepository(connectionString));
+builder.Services.AddScoped<IEmployeeRepository, EmployeeRepository>();
+builder.Services.AddScoped<IEmployeeService, EmployeeService>();
+builder.Services.AddScoped<IEmployeeManager, EmployeeManager>();
+
+builder.Services.AddScoped<IDepartmentRepository, DepartmentRepository>();
 builder.Services.AddScoped<IDepartmentService, DepartmentService>();
 
 var app = builder.Build();
