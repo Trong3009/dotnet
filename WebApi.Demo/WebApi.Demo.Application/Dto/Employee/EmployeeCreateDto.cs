@@ -10,7 +10,9 @@ namespace WebApi.Demo.Application
 {
     public class EmployeeCreateDto
     {
-        public string? EmployeeCode { get; set; }
+        [Required]
+        [MaxLength(20)]
+        public string EmployeeCode { get; set; }
 
         [Required]
         [MaxLength(255)]

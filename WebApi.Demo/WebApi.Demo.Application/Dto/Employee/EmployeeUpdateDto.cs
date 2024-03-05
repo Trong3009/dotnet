@@ -11,7 +11,7 @@ namespace WebApi.Demo.Application
     public class EmployeeUpdateDto
     {
 
-        public string? EmployeeCode { get; set; }
+        public string EmployeeCode { get; set; }
 
         [Required]
 

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Cryptography.X509Certificates;
 using System.Text;
 using System.Threading.Tasks;
 using WebApi.Demo.Domain;
@@ -28,9 +29,9 @@ namespace WebApi.Demo.Application
             return result;
         }
 
-        public async Task<TEntityDto> UpdateyAsync(TKey id, TEntityUpdateDto entityUpdateDto)
+        public async Task<TEntityDto> UpdateAsync(TKey id, TEntityUpdateDto entityUpdateDto)
         {
-            var entity = await MapEntityUpdateDtoToEntity(entityUpdateDto);
+            var entity = await MapEntityUpdateDtoToEntity(id, entityUpdateDto);
             if (entity is BaseAuditEntity auditEntity)
             {
                 auditEntity.ModifiedBy = "Nguyen quy trong";
@@ -49,12 +50,23 @@ namespace WebApi.Demo.Application
 
         }
 
-        public Task<int> DeleteManyAsync(List<TKey> ids)
+        public async Task<int> DeleteManyAsync(List<TKey> ids)
         {
-            throw new NotImplementedException();
+            var entities = new List<TEntity>();
+            var listIds = new List<TKey>();
+            (entities, listIds) = await CrudRepository.GetListAsync(ids);
+            if (entities.Count == ids.ToList().Count)
+            {
+                var result = await CrudRepository.DeleteManyAsync(entities);
+                return result;
+            }
+            else
+            {
+                throw new NotfoundException();
+            }
         }
 
         public abstract Task<TEntity> MapEntityCreateDtoToEntity(TEntityCreateDto entityCreateDto);
-        public abstract Task<TEntity> MapEntityUpdateDtoToEntity(TEntityUpdateDto entityUpdateDto);
+        public abstract Task<TEntity> MapEntityUpdateDtoToEntity(TKey id ,TEntityUpdateDto entityUpdateDto);
     }
 }
