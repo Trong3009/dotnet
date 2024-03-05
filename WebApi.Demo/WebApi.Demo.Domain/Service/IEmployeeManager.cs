@@ -8,6 +8,6 @@ namespace WebApi.Demo.Domain
 {
     public interface IEmployeeManager
     {
-        Task CheckDuplicateCode(string code);
+        Task CheckDuplicateCodeAsync(string code);
     }
 }

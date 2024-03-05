@@ -66,5 +66,10 @@ namespace WebApi.Demo.Infrastructure
 
             return (entities, remainingIds);
         }
+
+        public Task<string> GetNewCodeAsync()
+        {
+            throw new NotImplementedException();
+        }
     }
 }

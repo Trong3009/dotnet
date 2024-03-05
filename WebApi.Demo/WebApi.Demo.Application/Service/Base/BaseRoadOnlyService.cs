@@ -29,6 +29,11 @@ namespace WebApi.Demo.Application
             var result = MapEntityDtoToEntityDto(entity);
             return result;
         }
+        public async Task<string> GetNewCodeAsync()
+        {
+            var result = await RoadOnlyRepository.GetNewCodeAsync();
+            return result;
+        }
 
         protected abstract TEntityDto MapEntityDtoToEntityDto(TEntity entity);
     }

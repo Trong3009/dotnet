@@ -35,7 +35,7 @@ namespace WebApi.Demo.Application
 
         public override async Task<Employee> MapEntityCreateDtoToEntity(EmployeeCreateDto entityCreateDto)
         {
-            await _employeeManager.CheckDuplicateCode(entityCreateDto.EmployeeCode);
+            await _employeeManager.CheckDuplicateCodeAsync(entityCreateDto.EmployeeCode);
             var employeeCreate = _mapper.Map<Employee>(entityCreateDto);
             employeeCreate.EmployeeId = Guid.NewGuid();
             return employeeCreate;
@@ -46,7 +46,7 @@ namespace WebApi.Demo.Application
             var employee = await _employeeRepository.GetAsync(id);
             if (employee.EmployeeCode != entityUpdateDto.EmployeeCode)
             {
-                await _employeeManager.CheckDuplicateCode(entityUpdateDto.EmployeeCode);
+                await _employeeManager.CheckDuplicateCodeAsync(entityUpdateDto.EmployeeCode);
             }
             var employeeUpdate = _mapper.Map<Employee>(entityUpdateDto);
             return employeeUpdate;

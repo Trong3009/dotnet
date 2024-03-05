@@ -15,7 +15,7 @@ namespace WebApi.Demo.Domain
             _employeeRepository = employeeRepository;
         }
 
-        public async Task CheckDuplicateCode(string code)
+        public async Task CheckDuplicateCodeAsync(string code)
         {
             var employee = await _employeeRepository.FindByCodeAsync(code);
             if (employee is not null)

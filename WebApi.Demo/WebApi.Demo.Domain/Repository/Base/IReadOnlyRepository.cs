@@ -24,5 +24,7 @@ namespace WebApi.Demo.Domain
         Task<(List<TEntity>, List<TKey>)> GetListAsync(IEnumerable<TKey> ids);
 
         Task<TEntity?> FindAsync(TKey id);
+
+        Task<string> GetNewCodeAsync();
     }
 }
